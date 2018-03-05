@@ -1,0 +1,6 @@
+[package]
+name = "chip8-rust-wasm"
+version = "0.1.0"
+authors = ["Lucas Hill <kingofallhills@gmail.com>"]
+
+[dependencies]

@@ -1,7 +1,6 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
+#![feature(proc_macro)]
+
+extern crate wasm_bindgen;
+
+pub mod cartridge;
+pub mod output;

@@ -31,5 +31,5 @@ impl Cartridge {
 #[test]
 fn can_instantiate_cartridge() {
   let mut cartridge = Cartridge::new(&[2,3,4,5]);
-  assert_eq!(cartridge.get_memory.len(), 4);
+  assert_eq!(cartridge.get_memory().len(), 4);
 }

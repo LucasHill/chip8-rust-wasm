@@ -19,7 +19,17 @@ impl Cartridge {
     }
   }
 
+  pub fn get_memory(&self) -> Vec<u8> {
+    self.memory.clone()
+  }
+
   pub fn get_output(&self) -> OutputState {
     OutputState { test: self.memory[0] }
   }
+}
+
+#[test]
+fn can_instantiate_cartridge() {
+  let mut cartridge = Cartridge::new(&[2,3,4,5]);
+  assert_eq!(cartridge.get_memory.len(), 4);
 }

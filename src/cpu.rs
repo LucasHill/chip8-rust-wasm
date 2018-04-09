@@ -101,7 +101,6 @@ impl CPU {
       (0xD, _, _, _) => self.run_Dxyn(parts.x, parts.y, parts.n),
       (0xE, _, _, 0xE) => self.run_Ex9E(parts.x),
       (0xE, _, _, 0x1) => self.run_ExA1(parts.x),
-
       (0xF, _, 0x0, 0x7) => self.run_Fx07(parts.x),
       (0xF, _, 0x0, 0xA) => self.run_Fx0A(parts.x),
       (0xF, _, 0x1, 0x5) => self.run_Fx15(parts.x),
@@ -242,8 +241,14 @@ impl CPU {
   }
 
   fn run_Dxyn(&mut self, x: usize, y: usize, n: usize) -> ProgramCounterKind {
-    //todo implement
+    let vx = self.registers[x] as usize;
+    let vy = self.registers[y] as usize;
+    let idx = self.index;
+    let sprite = &self.memory[idx..idx+n];
 
+    let collision = self.display.draw_sprite(vx, vy, sprite);
+    self.registers[0xF] = if collision { 1 } else { 0 };
+    
     ProgramCounterKind::Next
   }
 

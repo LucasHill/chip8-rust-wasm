@@ -10,18 +10,23 @@ const VRAM_SIZE: usize = DISPLAY_PIXEL_HEIGHT * DISPLAY_PIXEL_WIDTH;
 
 #[wasm_bindgen]
 pub struct Display {
-  vram: [u8; VRAM_SIZE]
+  vram: [bool; VRAM_SIZE]
 }
 
 #[wasm_bindgen]
 impl Display {
   pub fn new() -> Display {
     Display {
-      vram: [0; VRAM_SIZE]
+      vram: [false; VRAM_SIZE]
     }
   }
 
   pub fn clear(&mut self) {
-    self.vram = [0; VRAM_SIZE]
+    self.vram = [false; VRAM_SIZE]
+  }
+
+  pub fn draw_sprite(&mut self, x: usize, y: usize, sprite: &[u8]) -> bool {
+    //todo implement
+    true
   }
 }

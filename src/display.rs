@@ -6,7 +6,7 @@ use wasm_bindgen::prelude::*;
 use DISPLAY_PIXEL_WIDTH;
 use DISPLAY_PIXEL_HEIGHT;
 
-const VRAM_SIZE = DISPLAY_PIXEL_HEIGHT * DISPLAY_PIXEL_WIDTH;
+const VRAM_SIZE: usize = DISPLAY_PIXEL_HEIGHT * DISPLAY_PIXEL_WIDTH;
 
 #[wasm_bindgen]
 pub struct Display {
@@ -17,7 +17,11 @@ pub struct Display {
 impl Display {
   pub fn new() -> Display {
     Display {
-      vram: [0, VRAM_SIZE]
+      vram: [0; VRAM_SIZE]
     }
+  }
+
+  pub fn clear(&mut self) {
+    self.vram = [0; VRAM_SIZE]
   }
 }

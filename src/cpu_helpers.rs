@@ -5,32 +5,41 @@ pub enum ProgramCounterKind {
 }
 
 impl ProgramCounterKind {
-  fn skip_if(skip: bool) -> ProgramCounterKind {
+  pub fn skip_if(skip: bool) -> ProgramCounterKind {
     return if skip { ProgramCounterKind::Skip } else { ProgramCounterKind::Next }
   }
 }
 
 pub struct OpcodeParts {
-  nibbles: (u16, u16, u16, u16),
-  x: u16,
-  y: u16,
-  n: u16,
-  nnn: u16,
-  kk: u16
+  nibbles: (u8, u8, u8, u8),
+  pub x: usize,
+  pub y: usize,
+  pub n: usize,
+  pub nnn: usize,
+  pub kk: u8
 }
 
 impl OpcodeParts {
   pub fn new(instruction: u16) -> OpcodeParts {
-    let x = (instruction & 0x0F00) >> 8;
-    let y = (instruction & 0x00F0) >> 4;
-    let n = (instruction & 0x000F);
-    let nnn = (instruction & 0x0FFF);
-    let kk = (instruction & 0x00FF);
 
-    OpcodeParts {
-      nibbles: ((instruction & 0xF000) >> 12, x, y, n),
-      x, y, n, nnn, kk
-    }
+    let nibbles = (
+      ((instruction & 0xF000) >> 12) as u8, 
+      ((instruction & 0x0F00) >> 8) as u8, 
+      ((instruction & 0x00F0) >> 4) as u8, 
+      (instruction & 0x000F) as u8
+    );
+
+    let x = nibbles.1 as usize;
+    let y = nibbles.2 as usize;
+    let n = nibbles.3 as usize;
+    let nnn = (instruction & 0x0FFF) as usize;
+    let kk = (instruction & 0x00FF) as u8;
+
+    OpcodeParts { nibbles, x , y, n, nnn, kk }
+  }
+
+  pub fn get_nibbles(&self) -> (u8, u8, u8, u8) {
+    self.nibbles
   }
 }
 

@@ -49,11 +49,19 @@ impl Gamepad {
 
   pub fn is_key_pressed(&self, key: &str) -> bool {
     let is_pressed = match self.key_to_idx(key) {
-      Some(idx) => self.keys[idx] == true,
+      Some(idx) => self.is_key_idx_pressed(idx),
       None => false
     };
 
     is_pressed
+  }
+
+  pub fn is_key_idx_pressed(&self, idx: usize) -> bool {
+    self.keys[idx] == true
+  }
+
+  pub fn get_first_pressed_key_idx(&self) -> Option<usize> {
+    self.keys.iter().position(|&idx| idx == true)
   }
 }
 
@@ -63,6 +71,7 @@ fn it_sets_key() {
 
   gamepad.set_key_down("a");
   assert!(gamepad.is_key_pressed("a"));
+  assert!(gamepad.is_key_idx_pressed(8));
 }
 
 #[test]
@@ -72,6 +81,7 @@ fn it_unsets_key() {
   gamepad.set_key_down("a");
   gamepad.set_key_up("a");
   assert!(!gamepad.is_key_pressed("a"));
+  assert!(!gamepad.is_key_idx_pressed(8));
 }
 
 #[test]
@@ -79,4 +89,21 @@ fn default_key_state_is_off() {
   let mut gamepad = Gamepad::new();
 
   assert!(!gamepad.is_key_pressed("a"));
+}
+
+#[test]
+fn it_returns_first_pressed_idx() {
+  let mut gamepad = Gamepad::new();
+
+  gamepad.set_key_down("2");
+  gamepad.set_key_down("f");
+
+  assert_eq!(gamepad.get_first_pressed_key_idx(), Some(1));
+}
+
+#[test]
+fn it_returns_none_if_no_key_pressed() {
+  let gamepad = Gamepad::new();
+
+  assert_eq!(gamepad.get_first_pressed_key_idx(), None);
 }

@@ -6,7 +6,17 @@ const CANVAS_HEIGHT = 32;
 const mainCtx = initializeCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 
 (async function() {
-  const cpu = await intializeEmulatorForGame('PONG');
+  const cpu = await intializeEmulatorForGame('WIPEOUT');
+
+  document.addEventListener('keydown', event => {
+    const key = event.key.toLowerCase();
+    cpu.gamepad_down(key);
+  });
+
+  document.addEventListener('keyup', event => {
+    const key = event.key;
+    cpu.gamepad_up(key);
+  });
 
   window.setInterval(execute_cycle.bind(this, cpu), 2);
 })();

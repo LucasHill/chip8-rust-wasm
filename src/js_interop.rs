@@ -5,6 +5,8 @@ extern {
     #[wasm_bindgen(js_namespace = console)]
     pub fn log(s: &str);
     #[wasm_bindgen(js_namespace = console, js_name = log)]
+    pub fn log_usize(a: usize);
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
     pub fn log_u16(a: u16);
     #[wasm_bindgen(js_namespace = console, js_name = log)]
     pub fn log_u8(a: u8);

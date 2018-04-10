@@ -12,8 +12,8 @@ use font::FONT_SET;
 use js_interop::log_u16;
 use js_interop::log_u8;
 use js_interop::log;
+use js_interop::log_usize;
 use js_interop::generate_random_u8;
-
 use MEMORY_SIZE;
 
 #[wasm_bindgen]
@@ -55,14 +55,22 @@ impl CPU {
 
   pub fn calculate_instruction(first_byte: u8, second_byte: u8) -> u16 {
    (first_byte as u16) << 8 | second_byte as u16
- }
+  }
+
+  pub fn gamepad_down(&mut self, key: &str) {
+    self.gamepad.set_key_down(key)
+  }
+
+  pub fn gamepad_up(&mut self, key: &str) {
+    self.gamepad.set_key_up(key)
+  }
 
   pub fn tick(&mut self) -> ExecutionResult {
     let memory = self.memory;
     let pc = self.program_counter;
     let instruction = CPU::calculate_instruction(memory[pc], memory[pc + 1]);
 
-    // log_u16(instruction);
+    log_u16(instruction);
 
     let parts = OpcodeParts::new(instruction);
     self.update_timers();
@@ -146,7 +154,8 @@ impl CPU {
   fn run_2NNN(&mut self, nnn: usize) -> ProgramCounterKind {
     self.stack[self.stack_pointer] = self.program_counter + 2;
     self.stack_pointer += 1;
-
+    log("nnn: ");
+    log_usize(nnn);
     ProgramCounterKind::Jump(nnn)
   }
 

@@ -1,9 +1,7 @@
-#![feature(proc_macro)]
+#![feature(proc_macro, wasm_custom_section, wasm_import_module)]
 
 extern crate wasm_bindgen;
 use wasm_bindgen::prelude::*;
-
-use output::OutputState;
 
 #[wasm_bindgen]
 pub struct Cartridge {
@@ -21,10 +19,6 @@ impl Cartridge {
 
   pub fn get_memory(&self) -> Vec<u8> {
     self.memory.clone()
-  }
-
-  pub fn get_output(&self) -> OutputState {
-    OutputState { test: self.memory[0] }
   }
 }
 

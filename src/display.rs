@@ -1,5 +1,3 @@
-#![feature(proc_macro)]
-
 use DISPLAY_PIXEL_WIDTH;
 use DISPLAY_PIXEL_HEIGHT;
 

@@ -1,8 +1,5 @@
-#![feature(proc_macro)]
 
 use wasm_bindgen::prelude::*;
-
-use rand::{ Rng, thread_rng };
 
 use cpu_helpers::ProgramCounterKind;
 use cpu_helpers::OpcodeParts;
@@ -11,6 +8,12 @@ use cartridge::Cartridge;
 use gamepad::Gamepad;
 use display::Display;
 use font::FONT_SET;
+
+use js_interop::log_u16;
+use js_interop::log_u8;
+use js_interop::log;
+use js_interop::generate_random_u8;
+
 use MEMORY_SIZE;
 
 #[wasm_bindgen]
@@ -58,6 +61,8 @@ impl CPU {
     let memory = self.memory;
     let pc = self.program_counter;
     let instruction = CPU::calculate_instruction(memory[pc], memory[pc + 1]);
+
+    // log_u16(instruction);
 
     let parts = OpcodeParts::new(instruction);
     self.update_timers();
@@ -241,9 +246,9 @@ impl CPU {
     ProgramCounterKind::Jump(nnn + self.registers[0] as usize)
   }
 
-  fn run_Cxkk(&mut self, x: usize, kk: u8) -> ProgramCounterKind {
-    let mut rng = thread_rng();
-    self.registers[x] = rng.gen::<u8>() & kk;
+  fn run_Cxkk(&mut self, x: usize, kk: u8) -> ProgramCounterKind {    
+    let random = generate_random_u8();
+    self.registers[x] = random & kk;
 
     ProgramCounterKind::Next
   }

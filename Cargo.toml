@@ -7,5 +7,4 @@ authors = ["Lucas Hill <kingofallhills@gmail.com>"]
 crate-type = ["cdylib"]
 
 [dependencies]
-wasm-bindgen = "0.1"
-rand = "0.5.0-pre.0"
+wasm-bindgen = "0.2.1"

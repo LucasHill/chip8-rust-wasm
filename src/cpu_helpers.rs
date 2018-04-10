@@ -60,6 +60,14 @@ impl ExecutionResult {
       should_beep
     }
   }
+
+  pub fn get_display_state(&self) -> Vec<u8> {
+    self.display_state.clone()
+  }
+
+  pub fn get_should_beep(&self) -> bool {
+    self.should_beep
+  }
 }
 
 #[test]

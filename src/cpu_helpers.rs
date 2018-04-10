@@ -1,3 +1,6 @@
+use MEMORY_SIZE;
+use wasm_bindgen::prelude::*;
+
 pub enum ProgramCounterKind {
   Next,
   Skip,
@@ -40,6 +43,22 @@ impl OpcodeParts {
 
   pub fn get_nibbles(&self) -> (u8, u8, u8, u8) {
     self.nibbles
+  }
+}
+
+#[wasm_bindgen]
+pub struct ExecutionResult {
+  pub display_state: Vec<u8>,
+  pub should_beep: bool
+}
+
+#[wasm_bindgen]
+impl ExecutionResult {
+  pub fn new(display_state: Vec<u8>, should_beep: bool) -> ExecutionResult {
+    ExecutionResult {
+      display_state,
+      should_beep
+    }
   }
 }
 

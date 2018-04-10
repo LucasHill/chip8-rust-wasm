@@ -1,12 +1,12 @@
 #![feature(proc_macro)]
 
-extern crate wasm_bindgen;
 use wasm_bindgen::prelude::*;
 
 use rand::{ Rng, thread_rng };
 
 use cpu_helpers::ProgramCounterKind;
 use cpu_helpers::OpcodeParts;
+use cpu_helpers::ExecutionResult;
 use cartridge::Cartridge;
 use gamepad::Gamepad;
 use display::Display;
@@ -54,14 +54,16 @@ impl CPU {
    (first_byte as u16) << 8 | second_byte as u16
  }
 
-  pub fn tick(&mut self) {
+  pub fn tick(&mut self) -> ExecutionResult {
     let memory = self.memory;
     let pc = self.program_counter;
     let instruction = CPU::calculate_instruction(memory[pc], memory[pc + 1]);
 
     let parts = OpcodeParts::new(instruction);
     self.update_timers();
-    self.execute_instruction(&parts)
+    self.execute_instruction(&parts);
+
+    ExecutionResult::new(self.display.get_vram_copy(), self.sound_timer > 0)
   }
 
   fn update_timers(&mut self) {
@@ -113,6 +115,12 @@ impl CPU {
 
       _ => ProgramCounterKind::Next
     };
+
+    match next_program_count {
+      ProgramCounterKind::Next => self.program_counter += 2,
+      ProgramCounterKind::Skip => self.program_counter += 4,
+      ProgramCounterKind::Jump(n) => self.program_counter = n
+    }
   }
 
   fn run_00E0(&mut self) -> ProgramCounterKind {

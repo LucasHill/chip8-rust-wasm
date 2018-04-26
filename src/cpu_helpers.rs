@@ -48,8 +48,8 @@ impl OpcodeParts {
 
 #[wasm_bindgen]
 pub struct ExecutionResult {
-  pub display_state: Vec<u8>,
-  pub should_beep: bool
+  display_state: Vec<u8>,
+  should_beep: bool
 }
 
 #[wasm_bindgen]

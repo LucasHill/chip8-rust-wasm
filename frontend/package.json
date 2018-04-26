@@ -1,0 +1,14 @@
+{
+  "name": "chip8-rust-wasm-frontend",
+  "version": "1.0.0-beta1",
+  "author": "Lucas Hill <kingofallhills@gmail.com>",
+  "scripts": {
+    "serve": "webpack-dev-server",
+    "build": "NODE_ENV=production webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.10",
+    "webpack-dev-server": "^3.1.0"
+  }
+}
